@@ -64,5 +64,6 @@ This project is licensed under the [MIT License](LICENSE).
 Experience the joy of discovering new music that resonates with your taste. The Music Recommender project is your gateway to a world of personalized musical exploration. Get started today and elevate your music experience!
 
 AUTHORS:
+
 Otueh James Chibueze
 Agunloye Olaniyi Nicolas
