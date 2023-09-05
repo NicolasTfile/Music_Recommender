@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to Your Music Recommender</h1>
+    <p>Discover and enjoy music recommendations tailored just for you.</p>
+    <a href="{{ url_for('main.login') }}" class="btn">Login with Spotify</a>
+{% endblock %}
