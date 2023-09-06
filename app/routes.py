@@ -3,9 +3,8 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import spotipy.util as sp_util
 import os
-from app import create_app  # Import create_app function
 
-app = create_app()  # Initialize the Flask app
+from app import app
 
 # Define Spotify API credentials and settings
 client_id = os.environ.get('SPOTIPY_CLIENT_ID')
@@ -13,8 +12,16 @@ client_secret = os.environ.get('SPOTIPY_CLIENT_SECRET')
 redirect_uri = 'http://localhost:5000/callback'
 scope = 'user-library-read,user-top-read'
 
+# Initialize SpotifyOAuth outside of any function
+sp_oauth = SpotifyOAuth(
+        client_id=client_id,
+        client_secret=client_secret,
+        redirect_uri=redirect_uri,
+        scope=scope
+        )
+
 # Set this to False for production
-SHOW_DIALOG = False
+SHOW_DIALOG = True
 
 @app.route('/')
 def home():
@@ -40,7 +47,7 @@ def recommendations():
         return redirect(url_for('login'))
 
     # Refresh the access token if it has expired
-    refresh_token_if_expired()
+    refresh_token_if_expired(sp_oauth)
 
     # Initialize a Spotipy instance with the user's access token
     sp = spotipy.Spotify(auth=session['token_info']['access_token'])
@@ -66,14 +73,9 @@ def recommendations():
     return render_template('recommendations.html', recommended_tracks=recommended_tracks, top_tracks=top_tracks)
 
 def create_spotify_oauth():
-    return SpotifyOAuth(
-        client_id=client_id,
-        client_secret=client_secret,
-        redirect_uri=redirect_uri,
-        scope=scope
-    )
+    return sp_oauth
 
-def refresh_token_if_expired():
+def refresh_token_if_expired(sp_oauth):
     token_info = session['token_info']
     if sp_oauth.is_token_expired(token_info):
         # Refresh the access token using the Spotify utility function
