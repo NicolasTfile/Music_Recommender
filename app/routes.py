@@ -1,34 +1,37 @@
-from flask import Blueprint, render_template, redirect, url_for, session, request
+from flask import render_template, redirect, url_for, session, request
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from spotipy import util as sp_util  # Import Spotify utility functions
-
-bp = Blueprint('main', __name__)
+import spotipy.util as sp_util  # Import Spotify utility functions
+import os
 
 # Define Spotify API credentials and settings
-client_id = 'd3cbb6dd842440e2bf48d4d316966a32'
-client_secret = 'a89d9230c20a4a099a0992b40c0e986c'
+client_id = os.environ.get('SPOTIPY_CLIENT_ID')
+client_secret = os.environ.get('SPOTIPY_CLIENT_SECRET')
 redirect_uri = 'http://localhost:5000/callback'
 scope = 'user-library-read user-top-read'
 
-@bp.route('/')
+# Set this to True for testing but you probably want it set to False in production.
+SHOW_DIALOG = True
+
+@app.route('/')
 def home():
     return render_template('home.html')
 
-@bp.route('/login')
+@app.route('/login')
 def login():
     sp_oauth = create_spotify_oauth()
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
-@bp.route('/callback')
+@app.route('/callback/')
 def callback():
     sp_oauth = create_spotify_oauth()
+    session.clear()
     token_info = sp_oauth.get_access_token(request.args['code'])
     session['token_info'] = token_info
     return redirect(url_for('recommendations'))
 
-@bp.route('/recommendations', methods=['GET', 'POST'])
+@app.route('/recommendations', methods=['GET', 'POST'])
 def recommendations():
     if 'token_info' not in session:
         return redirect(url_for('login'))
@@ -57,26 +60,27 @@ def recommendations():
         recommended_tracks.extend(tracks_by_genre['tracks']['items'])
 
     # For simplicity, let's just pass the recommended tracks to the recommendations template
-    return render_template('recommendations.html', recommended_tracks=recommended_tracks)
+    return render_template('recommendations.html', recommended_tracks=recommended_tracks, top_tracks=top_tracks)
 
 def create_spotify_oauth():
     return SpotifyOAuth(
         client_id=client_id,
         client_secret=client_secret,
         redirect_uri=redirect_uri,
-        scope=scope,
-    )
+        scope=scope
+        )
 
 def refresh_token_if_expired():
     token_info = session['token_info']
     if sp_oauth.is_token_expired(token_info):
         # Refresh the access token using the Spotify utility function
-        token_info = sp_util.prompt_for_user_token(
-            username=None,  # Automatically uses the username from the token_info
-            scope=sp_oauth.scope,
-            client_id=sp_oauth.client_id,
-            client_secret=sp_oauth.client_secret,
-            redirect_uri=sp_oauth.redirect_uri,
-            cache_path=None,  # Disable caching for simplicity
-        )
+        sp_oauth = spotipy.oauth2.SpotifyOAuth(
+                username=None,  # Automatically uses the username from the token_info
+                scope=sp_oauth.scope,
+                client_id=sp_oauth.client_id,
+                client_secret=sp_oauth.client_secret,
+                redirect_uri=sp_oauth.redirect_uri,
+                cache_path=None # Disable caching for simplicity
+                )
+        token_info = sp_oauth.refresh_access_token(session['token_info']['refresh_token'])
         session['token_info'] = token_info
