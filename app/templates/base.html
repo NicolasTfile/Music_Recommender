@@ -3,27 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Recommender</title>
+    <!-- Include your CSS links here -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Your Music Recommender</title>
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
+        <!-- Your header content here -->
+	<h1>Music Recommender</h1>
+    </header>
+    <nav>
+        <!-- Your navigation content here -->
+	<ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 <li><a href="{{ url_for('recommendations') }}">Recommendations</a></li>
             </ul>
-        </nav>
-    </header>
+    </nav>
+    
     <main>
-        <div class="content">
-            {% block content %}{% endblock %}
-        </div>
+        {% block content %}{% endblock %}
     </main>
+
     <footer>
-        &copy; Your Music Recommender
+        <!-- Your footer content here -->
+	&copy; Your Music Recommender
     </footer>
+
+    <!-- Include your JavaScript file -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

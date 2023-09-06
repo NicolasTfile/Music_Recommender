@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Your Music Recommendations</h1>
-    <h2>Top Tracks</h2>
+    <h2>Music Recommendations</h2>
+
+    <h3>Your Top Tracks:</h3>
     <ul>
-        {% for track in top_tracks %}
+        {% for track in top_tracks['items'] %}
             <li>{{ track['name'] }} by {{ track['artists'][0]['name'] }}</li>
         {% endfor %}
     </ul>
 
-    <h2>Recommended Tracks</h2>
+    <h3>Recommended Tracks:</h3>
     <ul>
-        {% for track in recommended_tracks %}
+        {% for track in recommended_tracks['tracks']['items'] %}
             <li>{{ track['name'] }} by {{ track['artists'][0]['name'] }}</li>
         {% endfor %}
     </ul>

@@ -55,19 +55,9 @@ def recommendations():
     # Fetch the user's top tracks using Spotipy
     top_tracks = sp.current_user_top_tracks(limit=10, time_range='short_term')
 
-    # Implement your content-based recommendation logic here
-    # For simplicity, let's recommend tracks with similar genres to the user's top tracks
-    recommended_tracks = []
-
-    # Collect the genres of the user's top tracks
-    user_top_genres = set()
-    for track in top_tracks['items']:
-        user_top_genres.update(track['artists'][0]['genres'])  # Assuming the first artist represents the track's genre
-
-    # Fetch tracks based on similar genres
-    for genre in user_top_genres:
-        tracks_by_genre = sp.search(q=f'genre:"{genre}"', type='track', limit=5)
-        recommended_tracks.extend(tracks_by_genre['tracks']['items'])
+    # Implement your new recommendation logic here
+    # For simplicity, let's just fetch some popular tracks
+    recommended_tracks = sp.search(q='genre:"pop"', type='track', limit=10)
 
     # Pass both top_tracks and recommended_tracks to the recommendations template
     return render_template('recommendations.html', recommended_tracks=recommended_tracks, top_tracks=top_tracks)

@@ -1,7 +1,8 @@
 /* Reset some default styles */
-body, h1, h2, p, ul {
+body, h1, h2, p, ul, li, a {
     margin: 0;
     padding: 0;
+    border: 0;
 }
 
 /* Basic styling */
@@ -15,12 +16,15 @@ header {
     background-color: #333;
     color: #fff;
     padding: 1rem 0;
+    text-align: center;
 }
 
 nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
+    background-color: #333;
+    padding: 1rem 0;
 }
 
 nav li {
@@ -71,3 +75,14 @@ footer {
 .btn-spotify:hover {
     background-color: #169243;
 }
+
+/* Specific styles for pages */
+h2 {
+    margin-top: 1rem;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Don't forget to add additional styles for specific pages */
