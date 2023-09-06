@@ -11,7 +11,7 @@ app = create_app()  # Initialize the Flask app
 client_id = os.environ.get('SPOTIPY_CLIENT_ID')
 client_secret = os.environ.get('SPOTIPY_CLIENT_SECRET')
 redirect_uri = 'http://localhost:5000/callback'
-scope = 'user-library-read user-top-read'
+scope = 'user-library-read,user-top-read'
 
 # Set this to False for production
 SHOW_DIALOG = False

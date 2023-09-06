@@ -8,7 +8,7 @@ class Config(object):
     SPOTIPY_CLIENT_ID = os.environ.get('SPOTIPY_CLIENT_ID')
     SPOTIPY_CLIENT_SECRET = os.environ.get('SPOTIPY_CLIENT_SECRET')
     SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
-    SCOPE = 'user-library-read user-top-read'
+    SCOPE = 'user-library-read,user-top-read'
 
     # Session configuration
     PERMANENT_SESSION_LIFETIME = 1800
