@@ -7,7 +7,11 @@ from flask import (Flask, redirect, render_template, request,
                    session, url_for)
 from flask_session import Session
 from spotipy.oauth2 import SpotifyOAuth
+from dotenv import load_dotenv
 
+
+# Load environmental variables from .env
+load_dotenv()
 
 # Initialize and configure Flask-Session
 session = Session()
