@@ -1,5 +1,8 @@
 # Music Recommender
 
+![image](https://github.com/NicolasTfile/Music_Recommender/assets/112314081/b9e8bf5d-ff9d-43b6-8a86-ad62c144a6e0)
+
+
 Music Recommender is a web application that uses the Spotify API to recommend music based on a user's top tracks. It allows users to log in with their Spotify account and discover new music tailored to their preferences.
 
 ## Getting Started
